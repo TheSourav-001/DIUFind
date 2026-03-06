@@ -1,0 +1,79 @@
+// Add this JavaScript to map.php to handle focusing on specific post
+
+// Check if we need to focus on a specific post
+const urlParams = new URLSearchParams(window.location.search);
+const focusPostId = urlParams.get('focus');
+
+// Modify the displayMarkers function to handle focus
+function displayMarkers(posts) {
+    // Clear existing markers
+    allMarkers.forEach(marker => map.removeLayer(marker));
+    allMarkers = [];
+    lostMarkers = [];
+    foundMarkers = [];
+
+    let focusedMarker = null;
+
+    posts.forEach(post => {
+        if (post.latitude && post.longitude) {
+            // Use highlight icon if this is the focused post
+            const isFocused = focusPostId && post.id == focusPostId;
+            let icon;
+            
+            if (isFocused) {
+                // Highlighted yellow marker for focused post
+                icon = L.divIcon({
+                    className: 'custom-marker',
+                    html: '<div style="background: #FFD54F; width: 40px; height: 40px; border-radius: 50%; border: 4px solid #FFA000; box-shadow: 0 4px 12px rgba(255,165,0,0.6); animation: pulse 1.5s infinite;"></div><style>@keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }</style>',
+                    iconSize: [40, 40],
+                    iconAnchor: [20, 20]
+                });
+            } else {
+                icon = post.type === 'Lost' ? lostIcon : foundIcon;
+            }
+            
+            const marker = L.marker([post.latitude, post.longitude], { icon: icon });
+
+            // Create popup content
+            const popupContent = `
+                <div class="marker-popup">
+                    ${post.image ? `<img src="<?php echo UPLOAD_URL; ?>${post.image}" alt="${post.title}">` : ''}
+                    <h3>${post.title}</h3>
+                    <p><i class="fa-solid fa-tag"></i> ${post.type}</p>
+                    <p><i class="fa-solid fa-location-dot"></i> ${isFocused ? 'YOU ARE HERE' : 'Last seen here'}</p>
+                    <p class="body-small" style="color: var(--md-sys-color-on-surface-variant);">
+                        ${post.created_at}
+                    </p>
+                    <a href="<?php echo URLROOT; ?>/posts/show/${post.id}" 
+                       class="md-button md-button-filled view-btn" 
+                       style="width: 100%; text-align: center;">
+                        View Details
+                    </a>
+                </div>
+            `;
+
+            marker.bindPopup(popupContent, { maxWidth: 250 });
+            marker.addTo(map);
+
+            allMarkers.push(marker);
+            if (post.type === 'Lost') {
+                lostMarkers.push(marker);
+            } else {
+                foundMarkers.push(marker);
+            }
+
+            // If this is the focused post, save marker reference
+            if (isFocused) {
+                focusedMarker = marker;
+            }
+        }
+    });
+
+    // Auto-focus and open popup for focused post
+    if (focusedMarker) {
+        map.setView(focusedMarker.getLatLng(), 18); // Zoom closer
+        setTimeout(() => {
+            focusedMarker.openPopup();
+        }, 500);
+    }
+}

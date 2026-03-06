@@ -1,0 +1,291 @@
+<?php require APPROOT . '/views/inc/header.php'; ?>
+
+<div class="container" style="max-width: 900px;">
+    <div style="margin-bottom: var(--md-sys-spacing-2);">
+        <a href="<?php echo URLROOT; ?>/posts" class="md-button md-button-outlined">
+            <i class="fa fa-arrow-left" style="margin-right: 8px;"></i> Back to Feed
+        </a>
+    </div>
+
+    <div class="md-card" style="padding: var(--md-sys-spacing-3);">
+        <h1 class="title-large" style="color: var(--md-sys-color-primary); margin-bottom: 8px;">Create New Post</h1>
+        <p class="body-large"
+            style="color: var(--md-sys-color-on-surface-variant); margin-bottom: var(--md-sys-spacing-3);">
+            Report lost/found items or share announcements with complete DIU details
+        </p>
+
+        <form action="<?php echo URLROOT; ?>/posts/add" method="POST" enctype="multipart/form-data">
+
+            <!-- SECTION 1: POST TYPE -->
+            <h3 class="title-large" style="margin: var(--md-sys-spacing-2) 0; color: var(--md-sys-color-secondary);">
+                Post Information</h3>
+
+            <div class="grid grid-cols-2">
+                <div class="md-text-field">
+                    <select name="type" id="typeSelect" class="md-select" required>
+                        <option value="">Select Type</option>
+                        <option value="Lost">Lost Item</option>
+                        <option value="Found">Found Item</option>
+                        <option value="Event">Event/Notice</option>
+                        <option value="Other">Other</option>
+                    </select>
+                    <label class="md-label">Post Type *</label>
+                </div>
+
+                <div class="md-text-field">
+                    <select name="category_id" class="md-select">
+                        <option value="">Select Category</option>
+                        <option value="1">Electronics (Laptop, Phone, Charger)</option>
+                        <option value="2">ID Cards (Student ID, NID, Passport)</option>
+                        <option value="3">Books & Stationery</option>
+                        <option value="4">Accessories (Watch, Jewelry, Wallet)</option>
+                    </select>
+                    <label class="md-label">Item Category</label>
+                </div>
+            </div>
+
+            <!-- SECTION 2: PERSONAL DETAILS -->
+            <h3 class="title-large"
+                style="margin: var(--md-sys-spacing-3) 0 var(--md-sys-spacing-2) 0; color: var(--md-sys-color-secondary);">
+                Your Details</h3>
+
+            <div class="grid grid-cols-2">
+                <div class="md-text-field">
+                    <select name="user_role" class="md-select" required>
+                        <option value="">Select Role</option>
+                        <option value="Student">Student</option>
+                        <option value="Faculty">Faculty Member</option>
+                        <option value="Staff">Staff/Employee</option>
+                        <option value="Visitor">Visitor</option>
+                    </select>
+                    <label class="md-label">You are a *</label>
+                </div>
+
+                <div class="md-text-field">
+                    <input type="text" name="id_batch" class="md-input" placeholder=" ">
+                    <label class="md-label">Student ID / Batch (e.g., 221-15-5678)</label>
+                </div>
+            </div>
+
+            <div class="md-text-field">
+                <select name="department" class="md-select" required>
+                    <option value="">Select Department/Faculty</option>
+                    <optgroup label="Faculty of Science & Information Technology">
+                        <option value="CSE">Computer Science & Engineering (CSE)</option>
+                        <option value="SWE">Software Engineering (SWE)</option>
+                        <option value="CIS">Computer & Information Systems (CIS)</option>
+                        <option value="Multimedia">Multimedia & Creative Technology (MCT)</option>
+                    </optgroup>
+                    <optgroup label="Faculty of Engineering">
+                        <option value="EEE">Electrical & Electronic Engineering (EEE)</option>
+                        <option value="Civil">Civil Engineering</option>
+                        <option value="Textile">Textile Engineering</option>
+                        <option value="IPE">Industrial & Production Engineering</option>
+                    </optgroup>
+                    <optgroup label="Faculty of Business & Entrepreneurship">
+                        <option value="BBA">Business Administration (BBA)</option>
+                        <option value="MBA">Master of Business Administration (MBA)</option>
+                        <option value="Tourism">Tourism & Hospitality Management</option>
+                    </optgroup>
+                    <optgroup label="Other Faculties">
+                        <option value="English">English</option>
+                        <option value="Law">Law</option>
+                        <option value="Pharmacy">Pharmacy</option>
+                        <option value="Public_Health">Public Health</option>
+                        <option value="Nutrition">Nutrition & Food Science</option>
+                        <option value="GED">General Education Department (GED)</option>
+                    </optgroup>
+                </select>
+                <label class="md-label">Department/Faculty *</label>
+            </div>
+
+            <!-- SECTION 3: LOCATION -->
+            <h3 class="title-large"
+                style="margin: var(--md-sys-spacing-3) 0 var(--md-sys-spacing-2) 0; color: var(--md-sys-color-secondary);">
+                Location Details</h3>
+
+            <div class="grid grid-cols-2">
+                <div class="md-text-field">
+                    <select name="campus" id="campusSelect" class="md-select" required>
+                        <option value="">Select Campus</option>
+                        <option value="DSC">Daffodil Smart City (Ashulia - Main Campus)</option>
+                        <option value="Mirpur">City Campus (Mirpur)</option>
+                        <option value="Dhanmondi">Dhanmondi Campus</option>
+                        <option value="Uttara">Uttara Campus</option>
+                    </select>
+                    <label class="md-label">Campus *</label>
+                </div>
+
+                <div class="md-text-field">
+                    <select name="location_id" id="locationSelect" class="md-select">
+                        <option value="">Select Building/Location</option>
+                    </select>
+                    <label class="md-label">Building/Hall/Location *</label>
+                </div>
+            </div>
+
+            <div class="md-text-field">
+                <input type="text" name="specific_location" class="md-input" placeholder=" ">
+                <label class="md-label">Specific Location (Room 401, 3rd Floor, Canteen Table 5, etc.)</label>
+            </div>
+
+            <!-- SECTION 4: ORGANIZATION/CLUB -->
+            <div class="md-text-field">
+                <select name="organization" class="md-select">
+                    <option value="">Related Club/Organization (Optional)</option>
+                    <optgroup label="Academic Clubs">
+                        <option value="DIU Computer Programming Club">DIU Computer Programming Club (DPC)</option>
+                        <option value="DIU Robotics Club">DIU Robotics Club</option>
+                        <option value="DIU Business Club">DIU Business Club</option>
+                    </optgroup>
+                    <optgroup label="Cultural Clubs">
+                        <option value="DIU Cultural Club">DIU Cultural Club</option>
+                        <option value="DIU Debate Club">DIU Debate Society</option>
+                        <option value="DIU Film & Photography">DIU Film & Photography Society</option>
+                    </optgroup>
+                    <optgroup label="Sports & Adventure">
+                        <option value="DIU Sports Club">DIU Sports Club</option>
+                        <option value="DIU Adventure Club">DIU Adventure Club</option>
+                        <option value="DIU Chess Club">DIU Chess Club</option>
+                    </optgroup>
+                    <optgroup label="Social & Welfare">
+                        <option value="Red Crescent">DIU Red Crescent Society</option>
+                        <option value="DIU Blood Donors">DIU Blood Donors Club</option>
+                        <option value="DIU Career Club">DIU Career Club</option>
+                    </optgroup>
+                </select>
+                <label class="md-label">Club/Organization</label>
+            </div>
+
+            <!-- SECTION 5: ITEM DETAILS -->
+            <h3 class="title-large"
+                style="margin: var(--md-sys-spacing-3) 0 var(--md-sys-spacing-2) 0; color: var(--md-sys-color-secondary);">
+                Item/Post Details</h3>
+
+            <div class="md-text-field">
+                <input type="text" name="title"
+                    class="md-input <?php echo (!empty($data['title_err'])) ? 'error' : ''; ?>" placeholder=" "
+                    value="<?php echo $data['title']; ?>" required>
+                <label class="md-label">Title (Short, descriptive) *</label>
+                <?php if (!empty($data['title_err'])): ?>
+                    <span class="md-error-text"><?php echo $data['title_err']; ?></span>
+                <?php endif; ?>
+            </div>
+
+            <div class="md-text-field">
+                <textarea name="body" class="md-input <?php echo (!empty($data['body_err'])) ? 'error' : ''; ?>"
+                    placeholder=" " rows="6" required><?php echo $data['body']; ?></textarea>
+                <label class="md-label">Detailed Description *</label>
+                <?php if (!empty($data['body_err'])): ?>
+                    <span class="md-error-text"><?php echo $data['body_err']; ?></span>
+                <?php endif; ?>
+                <span class="md-helper-text">Include: Color, Brand, Model, Size, Time lost/found, Distinguishing
+                    features, Serial numbers (if applicable)</span>
+            </div>
+
+            <!-- Image Upload -->
+            <div class="md-text-field">
+                <label
+                    style="display: block; margin-bottom: 8px; font-size: 14px; color: var(--md-sys-color-on-surface);">
+                    <i class="fa-solid fa-image" style="margin-right: 8px; color: var(--md-sys-color-primary);"></i>
+                    Upload Item Photo (Optional)
+                </label>
+                <input type="file" name="image" id="imageUpload" accept="image/*"
+                    style="padding: 12px; border: 1px solid var(--md-sys-color-outline); border-radius: var(--md-sys-shape-corner-extra-small); width: 100%; font-size: 14px;">
+                <span class="md-helper-text">Supports: JPG, PNG, GIF (Max 5MB)</span>
+
+                <!-- Image Preview -->
+                <div id="imagePreview" style="margin-top: 12px; display: none;">
+                    <img id="previewImg" src=""
+                        style="max-width: 300px; border-radius: var(--md-sys-shape-corner-small); box-shadow: var(--md-sys-elevation-1);">
+                </div>
+            </div>
+
+            <div
+                style="display: flex; gap: var(--md-sys-spacing-2); justify-content: flex-end; margin-top: var(--md-sys-spacing-3);">
+                <a href="<?php echo URLROOT; ?>/posts" class="md-button md-button-outlined"
+                    style="padding: 0 32px;">Cancel</a>
+                <button type="submit" class="md-button md-button-filled" style="padding: 0 32px;">Submit Post</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    // Dynamic location loading based on campus
+    const locationData = {
+        'DSC': [
+            { id: '1', name: 'AB1 Building (Academic Block 1)' },
+            { id: '1', name: 'AB2 Building (Academic Block 2)' },
+            { id: '1', name: 'AB3 Building (Academic Block 3)' },
+            { id: '1', name: 'AB4 Building (Academic Block 4)' },
+            { id: '2', name: 'Knowledge Tower (Main Building)' },
+            { id: '6', name: 'Innovation Lab & Maker Space' },
+            { id: '3', name: 'Central Library' },
+            { id: '4', name: 'Food Court & Cafeteria' },
+            { id: '1', name: 'Daffodil Tower' },
+            { id: '1', name: 'Younus Khan Hall (Boys Hostel)' },
+            { id: '1', name: 'Rowshan Ara Hall (Girls Hostel)' },
+            { id: '1', name: 'Sports Complex & Playground' },
+            { id: '5', name: 'Bus Station (Campus Shuttle)' },
+            { id: '1', name: 'Mosque' },
+            { id: '1', name: 'Medical Center' }
+        ],
+        'Mirpur': [
+            { id: '1', name: 'Main Building' },
+            { id: '1', name: 'Annex Building' },
+            { id: '3', name: 'Library' },
+            { id: '4', name: 'Cafeteria' },
+            { id: '1', name: 'Computer Lab' }
+        ],
+        'Dhanmondi': [
+            { id: '1', name: 'Main Building' },
+            { id: '1', name: 'DT Campus' },
+            { id: '3', name: 'Library' }
+        ],
+        'Uttara': [
+            { id: '1', name: 'Main Building' },
+            { id: '4', name: 'Cafeteria' }
+        ]
+    };
+
+    document.getElementById('campusSelect').addEventListener('change', function () {
+        const campus = this.value;
+        const locationSelect = document.getElementById('locationSelect');
+
+        locationSelect.innerHTML = '<option value="">Select Building/Location</option>';
+
+        if (campus && locationData[campus]) {
+            locationData[campus].forEach(function (location) {
+                const option = document.createElement('option');
+                option.value = location.id;
+                option.textContent = location.name;
+                locationSelect.appendChild(option);
+            });
+        }
+    });
+
+    // Floating label support
+    document.querySelectorAll('.md-input').forEach(input => {
+        if (input.value) input.classList.add('filled');
+        input.addEventListener('input', function () {
+            if (this.value) this.classList.add('filled');
+            else this.classList.remove('filled');
+        });
+    });
+
+    // Image preview
+    document.getElementById('imageUpload').addEventListener('change', function (event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                document.getElementById('previewImg').src = e.target.result;
+                document.getElementById('imagePreview').style.display = 'block';
+            }
+            reader.readAsDataURL(file);
+        }
+    });
+</script>
+
+<?php require APPROOT . '/views/inc/footer.php'; ?>

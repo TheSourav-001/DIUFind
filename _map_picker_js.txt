@@ -1,0 +1,82 @@
+// Map Picker JavaScript - ADD BEFORE THE CLOSING </script> TAG in add.php
+
+// ADD THIS AT THE TOP OF THE PAGE (after header include):
+// <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+// ===== INTERACTIVE MAP LOCATION PICKER =====
+const DIU_CENTER = [23.876292, 90.321189];
+let pickerMarker = null;
+
+// Initialize map  
+const pickerMap = L.map('location-picker-map', {
+    center: DIU_CENTER,
+    zoom: 16,
+    maxZoom: 19,
+    minZoom: 14
+});
+
+// Add Google Hybrid (Satellite + Labels) tiles for detail
+L.tileLayer('https://{s}.google.com/vt/lyrs=y&x={x}&y={y}&z={z}', {
+    maxZoom: 20,
+    subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
+    attribution: '&copy; Google Maps'
+}).addTo(pickerMap);
+
+// Custom draggable marker icon
+const customIcon = L.divIcon({
+    className: 'custom-pin',
+    html: '<div style="background: #1976D2; width: 30px; height: 30px; border-radius: 50% 50% 50% 0; transform: rotate(-45deg); border: 3px solid white; box-shadow: 0 3px 10px rgba(0,0,0,0.3);"><div style="width: 10px; height: 10px; border-radius: 50%; background: white; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(45deg);"></div></div>',
+    iconSize: [30, 30],
+    iconAnchor: [15, 30]
+});
+
+// Place marker on map click
+pickerMap.on('click', function(e) {
+    placeMarker(e.latlng.lat, e.latlng.lng);
+});
+
+// Preset location buttons
+document.querySelectorAll('.location-preset').forEach(btn => {
+    btn.addEventListener('click', function() {
+        const lat = parseFloat(this.dataset.lat);
+        const lng = parseFloat(this.dataset.lng);
+        placeMarker(lat, lng);
+        pickerMap.setView([lat, lng], 17);
+    });
+});
+
+// Function to place/update marker
+function placeMarker(lat, lng) {
+    // Remove existing marker
+    if (pickerMarker) {
+        pickerMap.removeLayer(pickerMarker);
+    }
+
+    // Add new marker (draggable)
+    pickerMarker = L.marker([lat, lng], {
+        icon: customIcon,
+        draggable: true
+    }).addTo(pickerMap);
+
+    // Update coordinates on drag
+    pickerMarker.on('dragend', function(e) {
+        const position = e.target.getLatLng();
+        updateCoordinates(position.lat, position.lng);
+    });
+
+    // Update hidden inputs
+    updateCoordinates(lat, lng);
+}
+
+// Update coordinate inputs and show feedback
+function updateCoordinates(lat, lng) {
+    document.getElementById('latitude').value = lat.toFixed(8);
+    document.getElementById('longitude').value = lng.toFixed(8);
+    
+    const status = document.getElementById('location-status');
+    status.style.display = 'block';
+    status.style.background = 'var(--md-sys-color-primary-container)';
+    status.style.color = 'var(--md-sys-color-on-primary-container)';
+    document.getElementById('location-coords').textContent = 
+        `Location set: ${lat.toFixed(6)}, ${lng.toFixed(6)}`;
+}

@@ -1,0 +1,21 @@
+# XAMPP & PHP
+/vendor/
+/.idea/
+/.vscode/
+/*.log
+/*.sql
+/*.sqlite
+.env
+.DS_Store
+Thumbs.db
+
+# Project specific temporary files
+/*.php
+!app/
+!public/
+!index.php
+!README.md
+
+# Application Uploads
+/public/uploads/*
+!/public/uploads/.gitkeep

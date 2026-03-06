@@ -1,0 +1,9 @@
+<!-- "Go to Map" Button - ADD THIS after the "Email Owner" or "Mark as Resolved" buttons in show.php -->
+
+<?php if (!empty($data['post']->latitude) && !empty($data['post']->longitude)): ?>
+    <a href="<?php echo URLROOT; ?>/posts/map?focus=<?php echo $data['post']->id; ?>" 
+       class="md-button md-button-filled" 
+       style="flex: 1;">
+        <i class="fa-solid fa-map-location-dot"></i> Go to Map
+    </a>
+<?php endif; ?>

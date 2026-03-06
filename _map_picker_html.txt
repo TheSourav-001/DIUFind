@@ -1,0 +1,47 @@
+<!-- Location Picker Section - ADD THIS AFTER THE "Specific Location" INPUT in add.php -->
+
+<!-- MAP LOCATION PICKER -->
+<div style="margin-top: var(--md-sys-spacing-3);">
+    <h4 class="title-medium" style="margin-bottom: 12px; color: var(--md-sys-color-primary);">
+        <i class="fa-solid fa-map-pin"></i> Pin Exact Location on Map
+    </h4>
+    <p class="body-small" style="color: var(--md-sys-color-on-surface-variant); margin-bottom: 16px;">
+        Click on the map to mark the exact spot where the item was lost/found. You can also use the preset locations below.
+    </p>
+
+    <!-- Preset DIU Locations -->
+    <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px;">
+        <button type="button" class="md-button md-button-outlined location-preset" data-lat="23.8765" data-lng="90.3210">
+            Knowledge Tower
+        </button>
+        <button type="button" class="md-button md-button-outlined location-preset" data-lat="23.8758" data-lng="90.3205">
+            Inspiration Building
+        </button>
+        <button type="button" class="md-button md-button-outlined location-preset" data-lat="23.8770" data-lng="90.3220">
+            Bonmaya/Lake Side
+        </button>
+        <button type="button" class="md-button md-button-outlined location-preset" data-lat="23.8750" data-lng="90.3200">
+            Engineering Complex
+        </button>
+        <button type="button" class="md-button md-button-outlined location-preset" data-lat="23.8780" data-lng="90.3225">
+            Main Gate
+        </button>
+        <button type="button" class="md-button md-button-outlined location-preset" data-lat="23.8762" data-lng="90.3212">
+            Library
+        </button>
+    </div>
+
+    <!-- Interactive Map -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <div id="location-picker-map" style="height: 400px; border-radius: 12px; overflow: hidden; box-shadow: var(--md-sys-elevation-2);"></div>
+    
+    <!-- Hidden inputs for coordinates -->
+    <input type="hidden" name="latitude" id="latitude" value="">
+    <input type="hidden" name="longitude" id="longitude" value="">
+    
+    <!-- Location status feedback -->
+    <div id="location-status" style="margin-top: 12px; padding: 12px; border-radius: 8px; display: none;">
+        <i class="fa-solid fa-check-circle"></i>
+        <span id="location-coords"></span>
+    </div>
+</div>

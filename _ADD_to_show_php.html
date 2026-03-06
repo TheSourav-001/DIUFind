@@ -1,0 +1,13 @@
+<!-- ADD THIS to app/views/posts/show.php RIGHT BEFORE the "Mark as Resolved" section -->
+
+<!-- Go to Map Button -->
+<?php if (!empty($data['post']->latitude) && !empty($data['post']->longitude)): ?>
+<div
+    style="margin-bottom: var(--md-sys-spacing-2); padding-bottom: var(--md-sys-spacing-2); border-bottom: 1px solid var(--md-sys-color-outline-variant);">
+    <a href="<?php echo URLROOT; ?>/posts/map?focus=<?php echo $data['post']->id; ?>" class="md-button md-button-filled"
+        style="width: 100%; display: flex; align-items: center; justify-content: center; gap: 8px; background: linear-gradient(135deg, #1976D2, #1565C0); color: white; padding: 16px; font-weight: 500; box-shadow: 0 2px 8px rgba(25,118,210,0.3);">
+        <i class="fa-solid fa-map-location-dot" style="font-size: 18px;"></i>
+        <span>View Location on Campus Map</span>
+    </a>
+</div>
+<?php endif; ?>
