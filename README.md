@@ -57,20 +57,28 @@ A centralized, secure, and real-time portal that organizes reports, verifies own
 DIUfind follows a robust **Model-View-Controller (MVC)** architectural pattern to ensure scalability and clean code separation.
 
 ```mermaid
-graph TD
-    A[Public Browser] -->|Routes| B[Core Router]
-    B -->|Calls| C[Controllers]
-    C -->|Requests Data| D[Models]
-    D -->|Queries| E[(MySQL Database)]
-    C -->|Loads| F[Views/UI Components]
-    F -->|Renders| A
-    subgraph Security Layer
-        G[CSRF Guard]
-        H[Rate Limiter]
-        I[XSS Encoder]
-        J[Secure Session]
-    end
-    C -.-> Security Layer
+flowchart TD
+
+A[Public Browser] -->|HTTP Request| B[Router]
+B -->|Route Handling| C[Controller]
+
+C -->|Fetch / Save Data| D[Model]
+D -->|SQL Queries| E[(MySQL Database)]
+
+C -->|Render UI| F[Views / UI Components]
+F -->|HTML Response| A
+
+subgraph Security Layer
+G[CSRF Protection]
+H[Rate Limiter]
+I[XSS Sanitization]
+J[Secure Session Management]
+end
+
+C -. Security Checks .-> G
+C -. Security Checks .-> H
+C -. Security Checks .-> I
+C -. Security Checks .-> J
 ```
 
 ---
