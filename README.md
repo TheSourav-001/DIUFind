@@ -83,6 +83,107 @@ C -. Security Checks .-> J
 
 ---
 
+## 📊 Visual Documentation
+
+### 🗄️ Database ER Diagram
+```mermaid
+erDiagram
+    USERS ||--o{ POSTS : creates
+    USERS ||--o{ COMMENTS : writes
+    USERS ||--o{ CLAIMS : submits
+    USERS ||--o{ NOTIFICATIONS : receives
+    USERS ||--o{ REACTIONS : gives
+    CATEGORIES ||--o{ POSTS : classifies
+    LOCATIONS ||--o{ POSTS : situates
+    POSTS ||--o{ COMMENTS : has
+    POSTS ||--o{ CLAIMS : has
+    POSTS ||--o{ REACTIONS : has
+
+    USERS {
+        int id PK
+        string name
+        string email
+        string password_hash
+        int points
+        string avatar
+    }
+    POSTS {
+        int id PK
+        int user_id FK
+        string title
+        string type
+        text body
+        int category_id FK
+        int location_id FK
+        string status
+    }
+    CLAIMS {
+        int id PK
+        int post_id FK
+        int user_id FK
+        text message
+        string status
+    }
+```
+
+### 🛣️ User Flow
+```mermaid
+graph LR
+    Start((Start)) --> Landing[Landing Page]
+    Landing --> Auth{Authenticated?}
+    Auth -- No --> Register[Register / Login]
+    Auth -- Yes --> Dash[Dashboard]
+    Register --> Dash
+    Dash --> Post[Post Item]
+    Dash --> Search[Search Items]
+    Dash --> Interact[Comment / React / Claim]
+    Interact --> Notify[Real-time Notifications]
+```
+
+### 🔁 Lost & Found Process
+```mermaid
+stateDiagram-v2
+    [*] --> Reporting
+    Reporting --> active: Item Posted
+    active --> PendingClaim: User Submits Claim
+    PendingClaim --> active: Claim Rejected
+    PendingClaim --> Resolved: Owner Verifies & Accepts
+    Resolved --> [*]: Points Awarded
+```
+
+### 🔐 Authentication Flow (Secure)
+```mermaid
+sequenceDiagram
+    participant U as User
+    participant C as Controller
+    participant S as Security Layer
+    participant D as Database
+
+    U->>C: Submit Login Form
+    C->>S: Validate CSRF Token
+    S-->>C: Token Valid
+    C->>S: Check Rate Limit (IP)
+    S-->>C: Limit OK
+    C->>D: Verify Credentials
+    D-->>C: User Valid
+    C->>S: Regenerate Session ID
+    C->>U: Redirect to Dashboard
+```
+
+### 🏆 Gamification Flow
+```mermaid
+graph TD
+    A[Find Item] --> B[Post Found Report]
+    B --> C[Item Claimed by Owner]
+    C --> D{Owner Verifies?}
+    D -- Yes --> E[Award Honesty Points]
+    E --> F[Update Leaderboard]
+    F --> G[Unlock Badges]
+    D -- No --> H[Manual Review]
+```
+
+---
+
 ## 🛡️ Security Hardening
 
 As a security-first platform, DIUfind implements several industry-standard protections:
