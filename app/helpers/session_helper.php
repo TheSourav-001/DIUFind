@@ -1,5 +1,46 @@
 <?php
+// Configure session cookie parameters for security
+session_set_cookie_params([
+    'lifetime' => $_ENV['SESSION_LIFETIME'] ?? 1800,
+    'path' => '/',
+    'domain' => '', // Use appropriate domain in production
+    'secure' => isset($_SERVER['HTTPS']), // True if using HTTPS
+    'httponly' => true,
+    'samesite' => 'Strict'
+]);
+
 session_start();
+
+// Check for session timeout
+if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] > ($_ENV['SESSION_LIFETIME'] ?? 1800))) {
+    session_unset();
+    session_destroy();
+    session_start();
+}
+$_SESSION['LAST_ACTIVITY'] = time();
+
+// CSRF Protection Helpers
+function generateCsrfToken()
+{
+    if (empty($_SESSION['csrf_token'])) {
+        $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+    }
+    return $_SESSION['csrf_token'];
+}
+
+function validateCsrfToken($token)
+{
+    if (!isset($_SESSION['csrf_token']) || $token !== $_SESSION['csrf_token']) {
+        return false;
+    }
+    return true;
+}
+
+function csrfField()
+{
+    $token = generateCsrfToken();
+    echo '<input type="hidden" name="csrf_token" value="' . $token . '">';
+}
 
 // Flash message helper
 function flash($name = '', $message = '', $class = 'alert-success')

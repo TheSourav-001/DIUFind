@@ -74,6 +74,7 @@ function renderComments($comments, $parentId = null, $depth = 0)
                         <div class="reply-form" id="reply-form-<?php echo $comment->id; ?>" style="display: none; margin-top: 8px;">
                             <form action="<?php echo URLROOT; ?>/comments/add/<?php echo $comment->post_id; ?>" method="POST"
                                 style="background: var(--md-sys-color-surface); padding: 12px; border-radius: 8px;">
+                                <?php csrfField(); ?>
                                 <input type="hidden" name="parent_id" value="<?php echo $comment->id; ?>">
                                 <div class="md-text-field">
                                     <textarea name="body" class="md-input" placeholder=" " rows="2" required

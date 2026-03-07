@@ -248,6 +248,7 @@
         </div>
 
         <form action="<?php echo URLROOT; ?>/posts/add" method="POST" enctype="multipart/form-data">
+            <?php csrfField(); ?>
 
             <!-- SECTION 1: POST TYPE -->
             <div class="section-title">

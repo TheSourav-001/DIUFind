@@ -260,6 +260,14 @@ require APPROOT . '/helpers/comment_helper.php';
                             const form = document.createElement('form');
                             form.method = 'POST';
                             form.action = '<?php echo URLROOT; ?>/posts/resolve/<?php echo $data['post']->id; ?>';
+                            
+                            // Add CSRF token
+                            const csrfToken = document.createElement('input');
+                            csrfToken.type = 'hidden';
+                            csrfToken.name = 'csrf_token';
+                            csrfToken.value = '<?php echo $_SESSION['csrf_token']; ?>';
+                            form.appendChild(csrfToken);
+                            
                             document.body.appendChild(form);
                             form.submit();
                         }
@@ -278,6 +286,7 @@ require APPROOT . '/helpers/comment_helper.php';
                 </a>
                 <form action="<?php echo URLROOT; ?>/posts/delete/<?php echo $data['post']->id; ?>" method="POST"
                     style="flex: 1;" onsubmit="return confirm('Are you sure you want to delete this post?');">
+                    <?php csrfField(); ?>
                     <button type="submit" class="md-button md-button-outlined"
                         style="width: 100%; border-color: var(--md-sys-color-error); color: var(--md-sys-color-error);">
                         <i class="fa-solid fa-trash" style="margin-right: 8px;"></i> Delete Post
@@ -359,7 +368,7 @@ require APPROOT . '/helpers/comment_helper.php';
                                         headers: {
                                             'Content-Type': 'application/x-www-form-urlencoded',
                                         },
-                                        body: 'message=User claims this item belongs to them.'
+                                        body: 'message=User claims this item belongs to them.&csrf_token=<?php echo $_SESSION['csrf_token']; ?>'
                                     })
                                         .then(response => response.json())
                                         .then(data => {
@@ -422,6 +431,7 @@ require APPROOT . '/helpers/comment_helper.php';
             <div
                 style="margin-bottom: var(--md-sys-spacing-3); padding: var(--md-sys-spacing-2); background: var(--md-sys-color-surface-variant); border-radius: var(--md-sys-shape-corner-medium);">
                 <form action="<?php echo URLROOT; ?>/comments/add/<?php echo $data['post']->id; ?>" method="POST">
+                    <?php csrfField(); ?>
                     <div class="md-text-field">
                         <textarea name="body" class="md-input" placeholder=" " rows="3" required
                             style="resize: vertical; min-height: 80px;"></textarea>
@@ -512,7 +522,8 @@ require APPROOT . '/helpers/comment_helper.php';
                             },
                             body: JSON.stringify({
                                 postId: postId,
-                                type: reactionType
+                                type: reactionType,
+                                csrf_token: '<?php echo $_SESSION['csrf_token']; ?>'
                             })
                         });
 

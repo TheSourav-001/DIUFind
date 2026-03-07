@@ -1,11 +1,14 @@
 <?php
 // App Configuration
-define('APP_NAME', 'DIUfind');
+define('APP_NAME', $_ENV['APP_NAME'] ?? 'DIUfind');
 define('APP_VERSION', '1.0.0');
 
 // URL Configuration
-define('URLROOT', 'http://localhost/DIUfind/public');
+define('URLROOT', $_ENV['APP_URL'] ?? 'http://localhost/DIUfind/public');
 define('SITENAME', 'DIU Smart Lost & Found');
+
+// App Secret for CSRF and other security features
+define('APP_SECRET', $_ENV['APP_SECRET'] ?? 'default_secret_key_change_me');
 
 // App Root
 define('APPROOT', dirname(dirname(__FILE__)));

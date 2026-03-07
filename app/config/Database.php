@@ -5,10 +5,10 @@
  */
 class Database
 {
-    private $host = 'localhost';
-    private $user = 'root';
-    private $pass = '';
-    private $dbname = 'diufind_db';
+    private $host;
+    private $user;
+    private $pass;
+    private $dbname;
 
     private $dbh;
     private $stmt;
@@ -19,6 +19,11 @@ class Database
     // Singleton - Private Constructor
     private function __construct()
     {
+        $this->host = $_ENV['DB_HOST'] ?? 'localhost';
+        $this->user = $_ENV['DB_USER'] ?? 'root';
+        $this->pass = $_ENV['DB_PASS'] ?? '';
+        $this->dbname = $_ENV['DB_NAME'] ?? 'diufind_db';
+
         $dsn = 'mysql:host=' . $this->host . ';dbname=' . $this->dbname . ';charset=utf8mb4';
 
         $options = array(

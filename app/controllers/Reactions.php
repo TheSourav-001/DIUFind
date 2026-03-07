@@ -1,6 +1,8 @@
 <?php
 class Reactions extends Controller
 {
+    private $reactionModel;
+
     public function __construct()
     {
         if (!isLoggedIn()) {
@@ -61,7 +63,7 @@ class Reactions extends Controller
                     'type' => 'post_reaction',
                     'post_id' => $postId,
                     'comment_id' => null,
-                    'message' => $_SESSION['user_name'] . ' reacted ' . $emojis[$type] . ' to your post'
+                    'message' => Security::h($_SESSION['user_name']) . ' reacted ' . $emojis[$type] . ' to your post'
                 ]);
             }
         }

@@ -15,6 +15,7 @@
         </p>
 
         <form action="<?php echo URLROOT; ?>/posts/edit/<?php echo $data['id']; ?>" method="POST">
+            <?php csrfField(); ?>
 
             <!-- Post Type -->
             <div class="md-text-field">

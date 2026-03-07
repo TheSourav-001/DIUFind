@@ -19,6 +19,11 @@ class Comments extends Controller
     public function add($post_id)
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            // Apply rate limiting: Max 5 comments per minute per user/IP
+            if (!Security::checkRateLimit('comment_add_' . $_SESSION['user_id'], 5, 60)) {
+                flash('comment_message', 'Too many comments. Please wait a moment.', 'alert alert-danger');
+                redirect('posts/show/' . $post_id);
+            }
             // Sanitize POST data
             $_POST = filter_var_array($_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 

@@ -79,16 +79,20 @@
 <!-- Initialize Animations & Loader -->
 <script>
     // Initialize AOS
-    AOS.init({
-        duration: 800,
-        easing: 'ease-out-cubic',
-        once: true,
-        offset: 50
-    });
+    if (typeof AOS !== 'undefined') {
+        AOS.init({
+            duration: 800,
+            easing: 'ease-out-cubic',
+            once: true,
+            offset: 50
+        });
+    }
 
     // Loader Logic
     window.addEventListener('load', function () {
         const loader = document.getElementById('loader-wrapper');
+        if (!loader) return;
+        
         const isLoaded = sessionStorage.getItem('diuFindLoaded');
 
         if (isLoaded) {
@@ -96,13 +100,27 @@
         } else {
             setTimeout(() => {
                 loader.classList.add('loader-hidden');
-                loader.addEventListener('transitionend', () => {
+                const hideLoader = () => {
                     loader.style.display = 'none';
-                });
+                };
+                loader.addEventListener('transitionend', hideLoader);
+                // Fallback if transitionend doesn't fire
+                setTimeout(hideLoader, 600);
                 sessionStorage.setItem('diuFindLoaded', 'true');
-            }, 1500);
+            }, 800); 
         }
     });
+
+    // FAIL-SAFE: Hide loader after 5 seconds anyway if it's still there
+    setTimeout(() => {
+        const loader = document.getElementById('loader-wrapper');
+        if (loader && loader.style.display !== 'none') {
+            loader.classList.add('loader-hidden');
+            setTimeout(() => {
+                loader.style.display = 'none';
+            }, 500);
+        }
+    }, 5000);
 
     // Floating label support for inputs
     document.querySelectorAll('.input-premium').forEach(input => {
@@ -141,7 +159,13 @@
                 markAllReadBtn.addEventListener('click', async function () {
                     try {
                         const response = await fetch('<?php echo URLROOT; ?>/notifications/markAllRead', {
-                            method: 'POST'
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                csrf_token: '<?php echo $_SESSION['csrf_token'] ?? ""; ?>'
+                            })
                         });
                         const data = await response.json();
                         if (data.success) {
@@ -234,7 +258,13 @@
             async function markNotificationAsRead(id) {
                 try {
                     await fetch(`<?php echo URLROOT; ?>/notifications/markRead/${id}`, {
-                        method: 'POST'
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            csrf_token: '<?php echo $_SESSION['csrf_token'] ?? ""; ?>'
+                        })
                     });
                     loadNotifications();
                     updateBadge();

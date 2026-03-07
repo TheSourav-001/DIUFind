@@ -16,6 +16,7 @@
     <!-- Settings Form Card -->
     <div class="md-card" style="padding: 32px;">
         <form action="<?php echo URLROOT; ?>/users/settings" method="POST" enctype="multipart/form-data">
+            <?php csrfField(); ?>
 
             <!-- Name Field -->
             <div style="margin-bottom: 24px;">

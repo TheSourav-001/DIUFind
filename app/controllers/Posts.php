@@ -41,6 +41,11 @@ class Posts extends Controller
     public function add()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            // Apply rate limiting: Max 3 posts per 5 minutes per user/IP
+            if (!Security::checkRateLimit('post_add_' . $_SESSION['user_id'], 3, 300)) {
+                flash('post_message', 'Too many posts created. Please wait before trying again.', 'alert alert-danger');
+                redirect('posts');
+            }
             $_POST = filter_var_array($_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
             // Handle image upload

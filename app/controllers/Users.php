@@ -5,6 +5,7 @@ class Users extends Controller
 
     public function __construct()
     {
+        parent::__construct();
         $this->userModel = $this->model('User');
     }
 
@@ -102,6 +103,13 @@ class Users extends Controller
     public function login()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            // Rate Limiting: Max 5 login attempts per 1 minute per IP/Email
+            $ip = $_SERVER['REMOTE_ADDR'];
+            if (!Security::checkRateLimit('login_' . $ip, 5, 60)) {
+                flash('login_error', 'Too many login attempts. Please try again after 1 minute.', 'alert-danger');
+                redirect('users/login');
+            }
+
             $_POST = filter_var_array($_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
             $data = [
@@ -149,6 +157,9 @@ class Users extends Controller
 
     private function createUserSession($user)
     {
+        // Regenerate Session ID to prevent session fixation
+        session_regenerate_id(true);
+
         $_SESSION['user_id'] = $user->id;
         $_SESSION['user_email'] = $user->email;
         $_SESSION['user_name'] = $user->name;

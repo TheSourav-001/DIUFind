@@ -12,6 +12,7 @@
         </div>
 
         <form action="<?php echo URLROOT; ?>/users/register" method="POST">
+            <?php csrfField(); ?>
             <!-- Name -->
             <div style="margin-bottom: 20px;">
                 <label
@@ -22,12 +23,12 @@
                         style="position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: var(--text-light);"></i>
                     <input type="text" name="name"
                         class="input-premium <?php echo (!empty($data['name_err'])) ? 'is-invalid' : ''; ?>"
-                        style="padding-left: 48px;" placeholder="John Doe" value="<?php echo $data['name']; ?>"
+                        style="padding-left: 48px;" placeholder="John Doe" value="<?php echo Security::h($data['name'] ?? ''); ?>"
                         required>
                 </div>
                 <?php if (!empty($data['name_err'])): ?>
                     <span style="display: block; font-size: 12px; color: #ef4444; margin-top: 6px;">
-                        <i class="fa-solid fa-circle-exclamation"></i> <?php echo $data['name_err']; ?>
+                        <i class="fa-solid fa-circle-exclamation"></i> <?php echo Security::h($data['name_err']); ?>
                     </span>
                 <?php endif; ?>
             </div>
@@ -43,11 +44,11 @@
                     <input type="email" name="email"
                         class="input-premium <?php echo (!empty($data['email_err'])) ? 'is-invalid' : ''; ?>"
                         style="padding-left: 48px;" placeholder="username@diu.edu.bd"
-                        value="<?php echo $data['email']; ?>" required>
+                        value="<?php echo Security::h($data['email'] ?? ''); ?>" required>
                 </div>
                 <?php if (!empty($data['email_err'])): ?>
                     <span style="display: block; font-size: 12px; color: #ef4444; margin-top: 6px;">
-                        <i class="fa-solid fa-circle-exclamation"></i> <?php echo $data['email_err']; ?>
+                        <i class="fa-solid fa-circle-exclamation"></i> <?php echo Security::h($data['email_err']); ?>
                     </span>
                 <?php endif; ?>
             </div>
@@ -62,12 +63,12 @@
                         style="position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: var(--text-light);"></i>
                     <input type="tel" name="phone"
                         class="input-premium <?php echo (!empty($data['phone_err'])) ? 'is-invalid' : ''; ?>"
-                        style="padding-left: 48px;" placeholder="01XXXXXXXXX" value="<?php echo $data['phone']; ?>"
+                        style="padding-left: 48px;" placeholder="01XXXXXXXXX" value="<?php echo Security::h($data['phone'] ?? ''); ?>"
                         required>
                 </div>
                 <?php if (!empty($data['phone_err'])): ?>
                     <span style="display: block; font-size: 12px; color: #ef4444; margin-top: 6px;">
-                        <i class="fa-solid fa-circle-exclamation"></i> <?php echo $data['phone_err']; ?>
+                        <i class="fa-solid fa-circle-exclamation"></i> <?php echo Security::h($data['phone_err']); ?>
                     </span>
                 <?php endif; ?>
             </div>
@@ -83,11 +84,11 @@
                     <select name="role" class="input-premium"
                         style="padding-left: 48px; appearance: none; cursor: pointer;" required>
                         <option value="">Select Your Role</option>
-                        <option value="student" <?php echo ($data['role'] == 'student') ? 'selected' : ''; ?>>Student
+                        <option value="student" <?php echo (($data['role'] ?? '') == 'student') ? 'selected' : ''; ?>>Student
                         </option>
-                        <option value="faculty" <?php echo ($data['role'] == 'faculty') ? 'selected' : ''; ?>>Faculty
+                        <option value="faculty" <?php echo (($data['role'] ?? '') == 'faculty') ? 'selected' : ''; ?>>Faculty
                             Member</option>
-                        <option value="staff" <?php echo ($data['role'] == 'staff') ? 'selected' : ''; ?>>Staff/Employee
+                        <option value="staff" <?php echo (($data['role'] ?? '') == 'staff') ? 'selected' : ''; ?>>Staff/Employee
                         </option>
                     </select>
                     <i class="fa-solid fa-chevron-down"
@@ -95,7 +96,7 @@
                 </div>
                 <?php if (!empty($data['role_err'])): ?>
                     <span style="display: block; font-size: 12px; color: #ef4444; margin-top: 6px;">
-                        <i class="fa-solid fa-circle-exclamation"></i> <?php echo $data['role_err']; ?>
+                        <i class="fa-solid fa-circle-exclamation"></i> <?php echo Security::h($data['role_err']); ?>
                     </span>
                 <?php endif; ?>
             </div>
@@ -114,7 +115,7 @@
                 </div>
                 <?php if (!empty($data['password_err'])): ?>
                     <span style="display: block; font-size: 12px; color: #ef4444; margin-top: 6px;">
-                        <i class="fa-solid fa-circle-exclamation"></i> <?php echo $data['password_err']; ?>
+                        <i class="fa-solid fa-circle-exclamation"></i> <?php echo Security::h($data['password_err']); ?>
                     </span>
                 <?php endif; ?>
             </div>
@@ -133,7 +134,7 @@
                 </div>
                 <?php if (!empty($data['confirm_password_err'])): ?>
                     <span style="display: block; font-size: 12px; color: #ef4444; margin-top: 6px;">
-                        <i class="fa-solid fa-circle-exclamation"></i> <?php echo $data['confirm_password_err']; ?>
+                        <i class="fa-solid fa-circle-exclamation"></i> <?php echo Security::h($data['confirm_password_err']); ?>
                     </span>
                 <?php endif; ?>
             </div>
@@ -160,14 +161,15 @@
         </p>
 
         <form action="<?php echo URLROOT; ?>/users/register" method="POST">
+            <?php csrfField(); ?>
             <!-- Name -->
             <div class="md-text-field">
                 <input type="text" name="name"
                     class="md-input <?php echo (!empty($data['name_err'])) ? 'error' : ''; ?>" placeholder=" "
-                    value="<?php echo $data['name']; ?>" required>
+                    value="<?php echo Security::h($data['name'] ?? ''); ?>" required>
                 <label class="md-label">Full Name *</label>
                 <?php if (!empty($data['name_err'])): ?>
-                    <span class="md-error-text"><?php echo $data['name_err']; ?></span>
+                    <span class="md-error-text"><?php echo Security::h($data['name_err']); ?></span>
                 <?php endif; ?>
             </div>
 
@@ -175,10 +177,10 @@
             <div class="md-text-field">
                 <input type="email" name="email"
                     class="md-input <?php echo (!empty($data['email_err'])) ? 'error' : ''; ?>" placeholder=" "
-                    value="<?php echo $data['email']; ?>" required>
+                    value="<?php echo Security::h($data['email'] ?? ''); ?>" required>
                 <label class="md-label">DIU Email (@diu.edu.bd) *</label>
                 <?php if (!empty($data['email_err'])): ?>
-                    <span class="md-error-text"><?php echo $data['email_err']; ?></span>
+                    <span class="md-error-text"><?php echo Security::h($data['email_err']); ?></span>
                 <?php endif; ?>
             </div>
 
@@ -186,10 +188,10 @@
             <div class="md-text-field">
                 <input type="tel" name="phone"
                     class="md-input <?php echo (!empty($data['phone_err'])) ? 'error' : ''; ?>" placeholder=" "
-                    value="<?php echo $data['phone']; ?>" required>
+                    value="<?php echo Security::h($data['phone'] ?? ''); ?>" required>
                 <label class="md-label">Phone Number (01XXXXXXXXX) *</label>
                 <?php if (!empty($data['phone_err'])): ?>
-                    <span class="md-error-text"><?php echo $data['phone_err']; ?></span>
+                    <span class="md-error-text"><?php echo Security::h($data['phone_err']); ?></span>
                 <?php endif; ?>
             </div>
 
@@ -197,15 +199,15 @@
             <div class="md-text-field">
                 <select name="role" class="md-select" required>
                     <option value="">Select Your Role</option>
-                    <option value="student" <?php echo ($data['role'] == 'student') ? 'selected' : ''; ?>>Student</option>
-                    <option value="faculty" <?php echo ($data['role'] == 'faculty') ? 'selected' : ''; ?>>Faculty Member
+                    <option value="student" <?php echo (($data['role'] ?? '') == 'student') ? 'selected' : ''; ?>>Student</option>
+                    <option value="faculty" <?php echo (($data['role'] ?? '') == 'faculty') ? 'selected' : ''; ?>>Faculty Member
                     </option>
-                    <option value="staff" <?php echo ($data['role'] == 'staff') ? 'selected' : ''; ?>>Staff/Employee
+                    <option value="staff" <?php echo (($data['role'] ?? '') == 'staff') ? 'selected' : ''; ?>>Staff/Employee
                     </option>
                 </select>
                 <label class="md-label">I am a *</label>
                 <?php if (!empty($data['role_err'])): ?>
-                    <span class="md-error-text"><?php echo $data['role_err']; ?></span>
+                    <span class="md-error-text"><?php echo Security::h($data['role_err']); ?></span>
                 <?php endif; ?>
             </div>
 
@@ -216,7 +218,7 @@
                     required>
                 <label class="md-label">Password (min 6 characters) *</label>
                 <?php if (!empty($data['password_err'])): ?>
-                    <span class="md-error-text"><?php echo $data['password_err']; ?></span>
+                    <span class="md-error-text"><?php echo Security::h($data['password_err']); ?></span>
                 <?php endif; ?>
             </div>
 
@@ -227,7 +229,7 @@
                     placeholder=" " required>
                 <label class="md-label">Confirm Password *</label>
                 <?php if (!empty($data['confirm_password_err'])): ?>
-                    <span class="md-error-text"><?php echo $data['confirm_password_err']; ?></span>
+                    <span class="md-error-text"><?php echo Security::h($data['confirm_password_err']); ?></span>
                 <?php endif; ?>
             </div>
 
