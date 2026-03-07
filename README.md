@@ -1,81 +1,132 @@
-# 🔍 DIUfind - Smart Lost & Found System
+# <img src="https://raw.githubusercontent.com/TheSourav-001/DIUFind/main/docs/assets/logo.png" width="48" align="center" /> DIUfind - Smart Lost & Found System
 
-**DIUfind** is a modern, feature-rich web platform designed for the **Daffodil International University (DIU)** community to efficiently report, track, and recover lost items on campus. It combines a sleek UI with powerful features like an interactive map, and gamification to foster a supportive and honest community.
+<div align="center">
 
----
+[![Visitors](https://api.visitorbadge.io/api/visitors?path=TheSourav-001%2FDIUFind&labelColor=%23006D3B&countColor=%23FFD700&style=flat-square)](https://visitorbadge.io/status?path=TheSourav-001%2FDIUFind)
+[![PHP Version](https://img.shields.io/badge/PHP-%3E%3D%207.4-777bb4?style=flat-square&logo=php)](https://www.php.net/)
+[![MySQL](https://img.shields.io/badge/MySQL-Database-4479A1?style=flat-square&logo=mysql)](https://www.mysql.com/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](https://opensource.org/licenses/MIT)
 
-## ✨ Key Features
+<img src="https://readme-typing-svg.herokuapp.com?font=Plus+Jakarta+Sans&weight=700&size=24&pause=1000&color=006D3B&center=true&vCenter=true&width=500&lines=Smart+Lost+%26+Found+System;Find+What+Matters;Connect+The+Campus;Empowering+DIU+Community" alt="Typing SVG" />
 
-### 📦 Item Management
-- **Report Lost/Found Items**: Easily post about items with titles, descriptions, categories, and images.
-- **Advanced Filtering**: Search for items by type (Lost/Found), category, location, and date range.
-- **Resolved Status**: Mark items as "Resolved" once they are found or returned to their rightful owner.
-
-### 🗺️ Interactive Campus Map
-- **Live Lost & Found**: View an interactive map of the campus with markers showing exactly where items were reported.
-- **Visual Markers**: Hover or click markers to see quick details and images of lost/found items.
-
-### 🏆 Gamification & Trust System
-- **Honesty Points**: Earn points by reporting found items and successfully returning them to owners.
-- **Campus Heroes**: Compete in the **Hall of Fame** (Leaderboard) to become a top contributor.
-- **Badges**: Unlock unique badges based on your activity and helpfulness in the community.
-
-### 💬 Social & Interaction
-- **Discussion System**: Comment on posts to provide more details or ask questions.
-- **Reactions**: Interact with posts using quick reactions to show support.
-- **Claim System**: Owners can securely claim their lost items, followed by verification from the founder.
-
-### 🔔 Notifications & Tools
-- **Real-time Alerts**: Get notified when someone comments on your post or when your item is claimed.
-- **PDF Poster Export**: Generate professional "Lost/Found" posters automatically for physical notice boards.
-- **Personalized Analytics**: Track your impact with a detailed profile dashboard and downloadable activity reports.
+</div>
 
 ---
 
-## 🛠️ Technical Stack
+## 🌟 Overview
 
-- **Backend**: PHP (Custom MVC Framework)
-- **Database**: MySQL with PDO (Safe against SQL Injection)
-- **Frontend**: HTML5, CSS3 (Modern Glassmorphism Design), JavaScript
-- **Libraries**:
-    - **AOS**: Scroll animations for a premium feel.
-    - **Font Awesome**: High-quality vector icons.
-    - **SweetAlert2**: Beautiful custom alerts and modals.
-    - **FPDF**: Dynamic PDF generation for posters and reports.
+**DIUfind** is a state-of-the-art, feature-rich web platform designed for the **Daffodil International University (DIU)** community. It bridges the gap between losing an item and finding it, using an AI-powered smart matching approach, interactive campus maps, and a gamified trust system.
+
+![Project Banner](docs/assets/banner.png)
+
+### 🔴 The Problem
+Traditional campus lost & found processes are fragmented, slow, and often rely on physical notices or unorganized social media groups.
+
+### 🟢 The Solution (DIUfind)
+A centralized, secure, and real-time portal that organizes reports, verifies ownership, and rewards honesty through a premium-grade user experience.
 
 ---
 
-## 🚀 Getting Started
+## 🚀 Key Features
+
+| | Feature | Description |
+|---|---|---|
+| 📦 | **Smart Management** | Advanced reporting with images, categories, and real-time status tracking. |
+| 🗺️ | **Interactive Map** | Live campus map with item hotspots and instant location markers. |
+| 🏆 | **Gamification** | "Hall of Fame" leaderboard rewarding heroes with **Honesty Points**. |
+| 🛡️ | **Enterprise Security** | CSRF protection, Rate Limiting, and XSS prevention for total peace of mind. |
+| 🔔 | **Smart Sync** | Real-time AJAX notifications for comments, claims, and reactions. |
+| 📄 | **Poster Engine** | Automatic PDF "Lost/Found" poster generation for physical notice boards. |
+
+---
+
+## 🖼️ System Preview
+
+<div align="center">
+
+| Dashboard Insights | Mobile Experience |
+| --- | --- |
+| ![Dashboard](docs/assets/dashboard_preview.png) | <img src="docs/assets/mobile_preview.png" width="280"> |
+
+</div>
+
+---
+
+## 🏗️ Architecture
+
+DIUfind follows a robust **Model-View-Controller (MVC)** architectural pattern to ensure scalability and clean code separation.
+
+```mermaid
+graph TD
+    A[Public Browser] -->|Routes| B[Core Router]
+    B -->|Calls| C[Controllers]
+    C -->|Requests Data| D[Models]
+    D -->|Queries| E[(MySQL Database)]
+    C -->|Loads| F[Views/UI Components]
+    F -->|Renders| A
+    subgraph Security Layer
+        G[CSRF Guard]
+        H[Rate Limiter]
+        I[XSS Encoder]
+        J[Secure Session]
+    end
+    C -.-> Security Layer
+```
+
+---
+
+## 🛡️ Security Hardening
+
+As a security-first platform, DIUfind implements several industry-standard protections:
+
+- **CSRF Protection**: Synchronizer token pattern for all state-changing requests.
+- **Rate Limiting**: Integrated anti-brute force and anti-spam mechanisms (5/min for login, 3/5min for posts).
+- **Secure Sessions**: SameSite=Strict, HttpOnly, and Secure flags with 30-minute inactivity timeouts.
+- **XSS Prevention**: Centralized output encoding using context-aware sanitization.
+- **SQLi Protection**: 100% PDO Prepared Statements across the data layer.
+- **CSP Headers**: Strict Content Security Policy allowing only trusted CDNs.
+
+---
+
+## 🛠️ Installation Guide
 
 ### Prerequisites
-- PHP 7.4 or higher
+- PHP 7.4+
 - MySQL / MariaDB
-- Apache Web Server (XAMPP / WAMP recommended)
+- Web Server (Apache/Nginx)
 
-### Installation
-1.  **Clone the Repository**:
-    ```bash
-    git clone https://github.com/TheSourav-001/DIUFind.git
-    ```
-2.  **Database Setup**:
-    - Import `app/config/diufind_db.sql` into your PHPMyAdmin or local MySQL server.
-3.  **Config Setup**:
-    - Update `app/config/config.php` and `app/config/Database.php` with your local database credentials and URL root.
-4.  **Launch**:
-    - Move the project to your `htdocs` folder and access it via `http://localhost/DIUfind`.
-
----
-
-## 🛡️ Security Features
-- **PDO Prepared Statements**: Protects against SQL injection attacks.
-- **Password Hashing**: Uses `PASSWORD_DEFAULT` for secure user authentication.
-- **Ownership Verification**: Strict checks to ensure only post authors can manage their content.
+### Setup Steps
+1. **Clone the project**:
+   ```bash
+   git clone https://github.com/TheSourav-001/DIUFind.git
+   ```
+2. **Setup Database**:
+   - Create a database `diufind_db`.
+   - Import the schema from `app/config/diufind_db.sql`.
+3. **Environment Configuration**:
+   - Create a `.env` file in the root directory:
+     ```env
+     DB_HOST=localhost
+     DB_USER=root
+     DB_PASS=
+     DB_NAME=diufind_db
+     APP_SECRET=your_secret_key
+     APP_URL=http://localhost/DIUfind/public
+     ```
+4. **Permissions**:
+   - Ensure `public/uploads/` is writable by the server.
 
 ---
 
 ## 👨‍💻 Developed By
+
 **Sourav Dipto Apu**  
-*Passionate about building community-driven solutions.*
+*Senior Full-Stack Developer & Security Enthusiast*
+
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Profile-blue?style=flat-square&logo=linkedin)](https://linkedin.com/in/thesourav)
+[![Github](https://img.shields.io/badge/GitHub-Profile-black?style=flat-square&logo=github)](https://github.com/TheSourav-001)
 
 ---
-*DIUfind - Bridging the gap between lost and found.*
+<div align="center">
+  <sub>Built with ❤️ for the DIU Community</sub>
+</div>
