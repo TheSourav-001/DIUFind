@@ -230,12 +230,12 @@ As a security-first platform, DIUfind implements several industry-standard prote
 ## 👨‍💻 Developed By
 
 **Sourav Dipto Apu**  
-*Senior Full-Stack Developer & Security Enthusiast*
+Developer & QA Enthusiast*
 
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-Profile-blue?style=flat-square&logo=linkedin)](https://linkedin.com/in/thesourav)
 [![Github](https://img.shields.io/badge/GitHub-Profile-black?style=flat-square&logo=github)](https://github.com/TheSourav-001)
 
 ---
 <div align="center">
-  <sub>Built with ❤️ for the DIU Community</sub>
+  <sub>Built for the DIU Community</sub>
 </div>
